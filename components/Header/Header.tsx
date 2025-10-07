@@ -3,6 +3,7 @@
 import Link from "next/link";
 import css from "./Header.module.css";
 import { usePathname } from "next/navigation";
+import TagsMenu from "../TagsMenu/TagsMenu";
 
 export default function Header() {
   const pathname = usePathname();
@@ -25,14 +26,7 @@ export default function Header() {
             </Link>
           </li>
           <li>
-            <Link
-              className={
-                pathname === "/notes" ? `${css.active}` : `${css.none_active}`
-              }
-              href="/notes"
-            >
-              Notes
-            </Link>
+            <TagsMenu />
           </li>
         </ul>
       </nav>

@@ -33,10 +33,11 @@ type NotesResponse = {
 //! 🔹 API-функции
 export const fetchNotes = async (
   page: number,
-  search: string
+  search: string,
+  tag?: string
 ): Promise<NotesResponse> => {
   const { data } = await api.get<NotesResponse>("/notes", {
-    params: { page, perPage: 12, search },
+    params: { page, perPage: 12, search, tag, sortBy: "created" },
   });
   return data;
 };
@@ -64,11 +65,15 @@ export const getSingleNote = async (id: string): Promise<Note> => {
   return data;
 };
 
-//! 🔹 React Query hook
-export const useFetchNotes = (currentPage: number, search: string) => {
+//! 🔹 React Query hooks
+export const useFetchNotes = (
+  currentPage: number,
+  search: string,
+  tag?: string
+) => {
   return useQuery({
-    queryKey: ["notes", currentPage, search],
-    queryFn: () => fetchNotes(currentPage, search),
+    queryKey: ["notes", currentPage, search, tag],
+    queryFn: () => fetchNotes(currentPage, search, tag),
     placeholderData: keepPreviousData,
     staleTime: 1000 * 30,
   });
