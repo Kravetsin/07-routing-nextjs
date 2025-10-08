@@ -12,16 +12,24 @@ type Props = {
 
 export default async function NotesPage({ params }: Props) {
   const { slug } = await params;
+  const tag = slug[0] === "All" ? "" : slug[0];
   const queryClient = new QueryClient();
+  const search = "";
+  const page = 1;
 
   await queryClient.prefetchQuery({
-    queryKey: ["notes", 1, ""],
-    queryFn: () => fetchNotes(1, "", ""),
+    queryKey: ["notes", page, search, tag],
+    queryFn: () =>
+      fetchNotes({
+        page,
+        search,
+        ...(tag && tag !== "All" ? { tag } : {}),
+      }),
   });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Notes />
+      <Notes tag={tag} />
     </HydrationBoundary>
   );
 }

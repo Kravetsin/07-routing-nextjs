@@ -1,5 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import css from "./TagsMenu.module.css";
+import { tagsList } from "@/types/note";
+import Link from "next/link";
 
 function TagsMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -12,15 +16,17 @@ function TagsMenu() {
       </button>
       {isOpen && (
         <ul className={css.menuList}>
-          {/* список тегів */}
-          <li className={css.menuItem}>
-            <a
-              href={`url до сторінки за відповідним тегом`}
-              className={css.menuLink}
-            >
-              Назва тегу
-            </a>
-          </li>
+          {tagsList.map((tag) => (
+            <li className={css.menuItem} key={tag}>
+              <Link
+                href={`/notes/filter/${tag}`}
+                onClick={toggle}
+                className={css.menuLink}
+              >
+                {tag}
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
     </div>

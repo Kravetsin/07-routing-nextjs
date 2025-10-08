@@ -11,7 +11,11 @@ import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
 import css from "./NotesPage.module.css";
 
-export default function Notes() {
+interface NotesProps {
+  tag?: string;
+}
+
+export default function Notes({ tag }: NotesProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [rawSearch, setRawSearch] = useState("");
   const [debouncedSearch] = useDebounce(rawSearch, 300);
@@ -19,7 +23,8 @@ export default function Notes() {
 
   const { data, isLoading, isError } = useFetchNotes(
     currentPage,
-    debouncedSearch
+    debouncedSearch,
+    tag
   );
 
   useEffect(() => {
